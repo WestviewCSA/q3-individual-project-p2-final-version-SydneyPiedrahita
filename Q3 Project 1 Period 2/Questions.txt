@@ -1,3 +1,10 @@
 Questions:
 
 Write as many questions as you can based on the project specs.
+C How much of this project can be done working together with neighbors?
+C How much of this project will Mr. David help us on?
+C How much of this project will be classwork?
+C How much of this project will be homework?
+O How difficult is this project?
+O Why are we writing so many questions?
+
