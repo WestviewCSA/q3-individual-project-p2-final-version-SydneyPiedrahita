@@ -7,4 +7,11 @@ C How much of this project will be classwork?
 C How much of this project will be homework?
 O How difficult is this project?
 O Why are we writing so many questions?
+O How much of this project is new materal?
+O How much of this project is stuff we've learned before?
+O How long will we spend on this project?
+O How much of the material will also be on the quizzes?
+C Will we be only working on only this during the next few weeks in class or also other stuff?
+O If also other stuff, what kind of stuff?
+C Will the tree stuff be incorporated into this project?
 
