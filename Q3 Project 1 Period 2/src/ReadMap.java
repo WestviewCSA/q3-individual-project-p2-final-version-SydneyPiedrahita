@@ -4,11 +4,11 @@ import java.util.Scanner;
 
 public class ReadMap {
 	
-	public static void main(String[] arg) throws IllegalCommandLineInputsException {
+	public static void main(String[] arg) throws IllegalCharactersFirstLineException {
 		ReadMap m = new ReadMap();
 	}
 	
-	public ReadMap() throws IllegalCommandLineInputsException {
+	public ReadMap() throws IllegalCharactersFirstLineException {
 		
 		readFile("easyMap1");
 		System.out.println();
@@ -19,7 +19,7 @@ public class ReadMap {
 		readCoordinateFile("easyMap1c");
 	}
 	
-	public void readFile(String name) throws ReadMap.IllegalCommandLineInputsException {
+	public void readFile(String name) throws ReadMap.IllegalCharactersFirstLineException {
 		try {
 			File file = new File(name);
 			Scanner scanner = new Scanner(file);
@@ -28,7 +28,7 @@ public class ReadMap {
 			int rooms = 0;
 			for(int i = 0; i < 3; i++) {
 				if(!scanner.hasNextInt()) {
-					throw new IllegalCommandLineInputsException("invalid map");
+					throw new IllegalCharactersFirstLineException("invalid map");
 				}
 				if(i == 0) {
 					 rows = scanner.nextInt();
@@ -47,6 +47,7 @@ public class ReadMap {
 			//int rows = scanner.nextInt();
 			//int cols = scanner.nextInt();
 			//int rooms = scanner.nextInt();
+			
 			
 				String[][] map = new String[rows*rooms][cols];
 				
@@ -70,7 +71,7 @@ public class ReadMap {
 		}
 	}
 	
-	public void readCoordinateFile(String name) throws IllegalCommandLineInputsException {
+	public void readCoordinateFile(String name) throws IllegalCharactersFirstLineException {
 		try {
 			File file = new File(name);
 			Scanner scanner = new Scanner(file);
@@ -79,7 +80,7 @@ public class ReadMap {
 			int rooms = 0;
 			for(int i = 0; i < 3; i++) {
 				if(!scanner.hasNextInt()) {
-					throw new IllegalCommandLineInputsException("invalid map");
+					throw new IllegalCharactersFirstLineException("invalid map");
 				}
 				if(i == 0) {
 					 rows = scanner.nextInt();
@@ -133,8 +134,8 @@ public class ReadMap {
 	
 
 	//exceptions
-	public class IllegalCommandLineInputsException extends Exception {
-			public IllegalCommandLineInputsException(String message) {
+	public class IllegalCharactersFirstLineException extends Exception {
+			public IllegalCharactersFirstLineException(String message) {
 				super(message);
 			}
 	}
