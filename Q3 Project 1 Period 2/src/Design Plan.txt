@@ -1,0 +1,63 @@
+Week 1 (2/23 - 2/27): 
+
+					Make sure I can push and commit changes to repository linked to GitHub classroom
+					assignment. 
+               		Create easy/medium/hard maps showing some understanding of the maps
+               		Create easy/medium/hard coordinate-based maps showing understanding of the 2nd type 
+               		of input files.
+               		Be able to read in data from map files 
+               			- Using Scanner
+               		Be able to store data from map files
+               			-  Use 2-D array
+               			- Sized [rooms*rows][cols]
+               		
+               		
+Week 2 (3/2 - 3/6): 
+
+					Start writing code that works with Queue-based approach...
+						- Notes: first-in, first-out
+						- Enqueue the W starting coord, Dequeue the W coord and enqueue the coordinates
+						  in N, S, E, W, check for the coin, repeat until coin is found
+               		Start writing code that works with Stack-based approach... 
+               			- Notes: first-in, last-out
+               			- push the W starting coord, pop the W coord and push the coordinates
+						  in N, S, E, W, check for the coin, repeat until coin is found
+               		Command Line arguments
+               			- Stack
+               			- Queue
+               			- Opt
+               			- Time
+               			- Incoordinate
+               			- Outcoordinate
+               			- Help
+               		
+               		Notes: North, South, East, West
+               		
+Week 3 (3/9 - 3/13): 
+
+					Finish Queue-Based & Stack-Based
+					Finish 
+					- Exceptions
+						- IllegalCommandLineInputsException
+						- IllegalMapCharacterExeption 
+						- IncompleteMapException
+						- IncorrectMapFormatException
+					- Runtime
+					- Errors
+						- Text-Map Format
+							- illegal characters
+							- incomplete maps
+							- files that don't start with 3 positive non 0 numbers
+						- Coordinate-Based Format
+							- illegal characters in the first column
+							- coordinates that don't fit inside the maze
+							- files that don't start with 3 positive non 0 numbers				
+						   
+Week 3 (3/16 - 3/20): 
+
+					Test Cases
+							- 5 additional test mazes stored in a subdirectory called TEST 
+							- named test[number] (01-05)
+							- 10 test cases (jUnit)
+							
+					Notes: Due Date -- 3/22

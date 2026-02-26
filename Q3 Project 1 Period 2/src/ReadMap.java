@@ -5,6 +5,13 @@ import java.util.Scanner;
 public class ReadMap {
 	
 	public static void main(String[] arg) throws IllegalCharactersFirstLineException {
+		
+		if(arg.length > 0) {
+			System.out.println("yay");
+		}
+		
+		
+		
 		ReadMap m = new ReadMap();
 	}
 	
