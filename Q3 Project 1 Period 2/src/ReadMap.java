@@ -9,8 +9,9 @@ public class ReadMap {
 		if(arg.length > 0) {
 			System.out.println("yay");
 		}
-		
-		
+		if(arg[0].equals("--Stack")) {
+			
+		}
 		
 		ReadMap m = new ReadMap();
 	}
