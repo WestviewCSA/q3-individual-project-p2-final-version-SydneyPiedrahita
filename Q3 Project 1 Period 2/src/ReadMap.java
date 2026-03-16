@@ -141,6 +141,7 @@ public class ReadMap {
 	}
 	
 
+
 	//exceptions
 	public class IllegalCharactersFirstLineException extends Exception {
 			public IllegalCharactersFirstLineException(String message) {
@@ -148,11 +149,29 @@ public class ReadMap {
 			}
 	}
 	
+	public class IllegalCommandLineInputsException extends Exception {
+		public IllegalCommandLineInputsException (String message) {
+			super(message);
+		}
+	}
 	
+	public class IllegalMapCharacterExcption extends Exception {
+		public IllegalMapCharacterExcption(String message) {
+			super(message);
+		}
+	}
 	
+	public class IncompleteMapException extends Exception {
+		public IncompleteMapException(String message) {
+			super(message);
+		}
+	}
 	
-	
-	
+	public class IncorrectMapFormatException extends Exception {
+		public IncorrectMapFormatException(String message) {
+			super(message);
+		}
+	}
 }
 
 
