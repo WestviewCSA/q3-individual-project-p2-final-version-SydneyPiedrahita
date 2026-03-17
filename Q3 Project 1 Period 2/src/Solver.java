@@ -55,62 +55,65 @@ public class Solver {
 		map[start[0]][start[1]] = "+";
 		
 		int[] curr = start;
-		int i = 0;
-		while(curr[i] != goal[0] && curr[i+1] != goal[1]) {
-			int[] N = {curr[i]-1, curr[i+1]};
-			int[] S = {curr[i]+1, curr[i+1]};
-			int[] E =  {curr[i], curr[i+1]+1};
-			int[] W =  {curr[i], curr[i+1]-1};
-			if(N[0] != goal[0] && N[1] != goal[1]) {
-				deQueue.add(N);
-			}
-			else if(N[0] == goal[0] && N[1] == goal[1]) {
-				curr = N;
-				enQueue.add(curr);
+		
+		while(curr[0] != goal[0] && curr[1] != goal[1]) {
+			int[] N = {curr[0]-1, curr[1]};
+			int[] S = {curr[0]+1, curr[1]};
+			int[] E =  {curr[0], curr[1]+1};
+			int[] W =  {curr[0], curr[1]-1};
+			
+			if(N[0] == goal[0] && N[1] == goal[1]) {
+				enQueue.add(N);
 				map[N[0]][N[1]] = "+";
 				return;
 			}
-			if(S[0] != goal[0] && S[1] != goal[1]) {
-				deQueue.add(S);
+			//N[0] != goal[0] && N[1] != goal[1]
+			else if(N[0] >= 0 && N[1] >= 0 && !map[N[0]][N[1]].equals("+") && !map[N[0]][N[1]].equals("#")) {
+				deQueue.add(N);
+				map[N[0]][N[1]] = "+";
 			}
-			else if(S[0] == goal[0] && S[1] == goal[1]) {
-				curr = S;
-				enQueue.add(curr);
+			
+			if(S[0] == goal[0] && S[1] == goal[1]) {
+				enQueue.add(S);
 				map[S[0]][S[1]] = "+";
 				return;
 			}
-			if(E[0] != goal[0] && E[1] != goal[1]) {
-				deQueue.add(E);
+			else if(S[0] >= 0 && S[1] >= 0 && !map[S[0]][N[1]].equals("+") && !map[S[0]][S[1]].equals("#")) {
+				deQueue.add(S);
+				map[S[0]][S[1]] = "+";
 			}
-			else if(E[0] == goal[0] && E[1] == goal[1]) {
-				curr = E;
-				enQueue.add(curr);
+			if(E[0] == goal[0] && E[1] == goal[1]) {
+				enQueue.add(E);
 				map[E[0]][E[1]] = "+";
 				return;
 			}
-			if(W[0] != goal[0] && W[1] != goal[1]) {
-				deQueue.add(W);
+			else if(E[0] >= 0 && E[1] >= 0 && !map[E[0]][E[1]].equals("+") && !map[E[0]][E[1]].equals("#")) {
+				deQueue.add(E);
+				map[E[0]][E[1]] = "+";
 			}
-			else if(W[0] == goal[0] && W[1] == goal[1]) {
-				curr = W;
-				enQueue.add(curr);
+			if(W[0] == goal[0] && W[1] == goal[1]) {
+				enQueue.add(W);
 				map[W[0]][W[1]] = "+";
 				return;
 			}
+			else if(W[0] >= 0 && W[1] >= 0 && !map[W[0]][W[1]].equals("+") && !map[W[0]][W[1]].equals("#")) {
+				deQueue.add(W);
+				map[W[0]][W[1]] = "+";
+			}
 			
-			i+=2;
+			
 			curr = deQueue.remove();
 			enQueue.add(curr);
-			map[curr[i]][curr[i+1]] = "+";
+			
 		}
-		map[curr[i]][curr[i+1]]	= "+";
-		return;
+		
 	}
 	
 	public void printMap() {
 		for(int row = 0; row < map.length; row++) {
+			
 			for(int col = 0; col < map[0].length; col++) {
-				System.out.println(map[row][col]==null ? "." : map[row][col]);
+				System.out.print(map[row][col]);
 			}
 			System.out.println();
 		}
