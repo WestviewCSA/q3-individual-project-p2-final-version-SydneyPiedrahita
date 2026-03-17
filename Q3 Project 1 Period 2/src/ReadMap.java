@@ -3,8 +3,8 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class ReadMap {
-	
-	public static void main(String[] arg) throws IllegalCharactersFirstLineException {
+	private String[][] map;
+	/*public static void main(String[] arg) throws IllegalCharactersFirstLineException {
 		
 		if(arg.length > 0) {
 			System.out.println("yay");
@@ -15,19 +15,20 @@ public class ReadMap {
 		
 		ReadMap m = new ReadMap();
 	}
-	
+	*/
 	public ReadMap() throws IllegalCharactersFirstLineException {
 		
-		readFile("easyMap1");
-		System.out.println();
-		readFile("easyMap2");
-		System.out.println();
-		readFile("medMap2");
-		System.out.println();
-		readCoordinateFile("easyMap1c");
+		/*if(filename.endsWith("c")) {
+			readCoordinateFile(filename);
+		}
+		else {
+			readFile(filename);
+		}
+		*/
+		this.map = map;
 	}
 	
-	public void readFile(String name) throws ReadMap.IllegalCharactersFirstLineException {
+	public String[][] readFile(String name) throws ReadMap.IllegalCharactersFirstLineException {
 		try {
 			File file = new File(name);
 			Scanner scanner = new Scanner(file);
@@ -57,7 +58,7 @@ public class ReadMap {
 			//int rooms = scanner.nextInt();
 			
 			
-				String[][] map = new String[rows*rooms][cols];
+				map = new String[rows*rooms][cols];
 				
 				for(int row = 0; row < map.length; row++) {
 					String str = scanner.next();
@@ -72,11 +73,14 @@ public class ReadMap {
 					}
 					System.out.println();
 				}
+				
+				
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return map;
 	}
 	
 	public void readCoordinateFile(String name) throws IllegalCharactersFirstLineException {
