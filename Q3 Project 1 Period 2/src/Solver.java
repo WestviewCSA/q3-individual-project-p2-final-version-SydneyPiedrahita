@@ -38,7 +38,7 @@ public class Solver {
 	public void Queue() {
 		int rows = map.length;
 		int cols = map[0].length;
-		Queue enqueue = new Queue;
+		Queue enqueue = new Queue();
 		
 	}
 	
