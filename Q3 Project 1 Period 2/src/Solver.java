@@ -65,8 +65,78 @@ public class Solver {
         queue.add(start);
         visited[start[0]][start[1]] = true;
 
+            boolean found = false;
 
-    }
+            // keep going until the queue is empty or we found the goal
+          while (!queue.isEmpty()) {
+
+        	  int[] curr = queue.remove();
+
+        	  if (curr[0] == goal[0] && curr[1] == goal[1]) {
+        		  found = true;
+        		  break;
+        	  }
+
+        	  // North
+        	  int nRow = curr[0] - 1;
+        	  int nCol = curr[1];
+        	  if (nRow >= 0 && !map[nRow][nCol].equals("@") && !visited[nRow][nCol]) {
+        		  queue.add(new int[]{nRow, nCol});
+        		  visited[nRow][nCol] = true;
+        		  cameFrom[nRow][nCol] = curr;
+        	  }
+
+        	  // South
+        	  int sRow = curr[0] + 1;
+        	  int sCol = curr[1];
+        	  if (sRow < rows && !map[sRow][sCol].equals("@") && !visited[sRow][sCol]) {
+        		  queue.add(new int[]{sRow, sCol});
+        		  visited[sRow][sCol] = true;
+        		  cameFrom[sRow][sCol] = curr;
+        	  }
+
+        	  // East
+        	  int eRow = curr[0];
+        	  int eCol = curr[1] + 1;
+        	  if (eCol < cols && !map[eRow][eCol].equals("@") && !visited[eRow][eCol]) {
+        		  queue.add(new int[]{eRow, eCol});
+        		  visited[eRow][eCol] = true;
+        		  cameFrom[eRow][eCol] = curr;
+        	  }
+
+        	  // West
+        	  int wRow = curr[0];
+        	  int wCol = curr[1] - 1;
+        	  if (wCol >= 0 && !map[wRow][wCol].equals("@") && !visited[wRow][wCol]) {
+        		  queue.add(new int[]{wRow, wCol});
+        		  visited[wRow][wCol] = true;
+        		  cameFrom[wRow][wCol] = curr;
+        	  }
+          }
+
+            if (!found) {
+                System.out.println("doesnt work");
+                return;
+            }
+
+            // Now trace back the path from goal to start using cameFrom
+            // Start at the goal and keep jumping to "where did I come from"
+            int[] step = goal;
+            while (step[0] != start[0] || step[1] != start[1]) {
+                int[] prev = cameFrom[step[0]][step[1]];
+
+                // mark the step BEFORE the goal with +
+                // (we don't overwrite W or $)
+                if (!map[prev[0]][prev[1]].equals("W")) {
+                    map[prev[0]][prev[1]] = "+";
+                }
+
+                step = prev; // walk backwards
+            }
+        }
+
+
+
 
 
 		/*Queue<int[]> enQueue = new LinkedList<>();
