@@ -7,8 +7,9 @@ public class Runner {
 		ReadMap m = new ReadMap();
 		String[][] map = m.readFile("easyMap2");
 		Solver s = new Solver(map);
-		s.Queue();
+		s.Stack();
 		s.printMap();
+		
 	}
 
 

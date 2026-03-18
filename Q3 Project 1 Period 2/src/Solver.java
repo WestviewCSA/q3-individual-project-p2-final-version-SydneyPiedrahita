@@ -1,5 +1,6 @@
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 
 public class Solver {
 	
@@ -56,7 +57,8 @@ public class Solver {
         }
 
     
-        int[][][] cameFrom = new int[rows][cols][];
+        int[][] prevRow = new int[rows][cols];
+		int[][] prevCol = new int[rows][cols];
 
         boolean[][] visited = new boolean[rows][cols];
 
@@ -83,7 +85,8 @@ public class Solver {
         	  if (nRow >= 0 && !map[nRow][nCol].equals("@") && !visited[nRow][nCol]) {
         		  queue.add(new int[]{nRow, nCol});
         		  visited[nRow][nCol] = true;
-        		  cameFrom[nRow][nCol] = curr;
+        		  prevRow[nRow][nCol] = curr[0];
+      		      prevCol[nRow][nCol] = curr[1];
         	  }
 
         	  // South
@@ -92,7 +95,8 @@ public class Solver {
         	  if (sRow < rows && !map[sRow][sCol].equals("@") && !visited[sRow][sCol]) {
         		  queue.add(new int[]{sRow, sCol});
         		  visited[sRow][sCol] = true;
-        		  cameFrom[sRow][sCol] = curr;
+        		  prevRow[sRow][sCol] = curr[0];
+     		     prevCol[sRow][sCol] = curr[1];
         	  }
 
         	  // East
@@ -101,7 +105,8 @@ public class Solver {
         	  if (eCol < cols && !map[eRow][eCol].equals("@") && !visited[eRow][eCol]) {
         		  queue.add(new int[]{eRow, eCol});
         		  visited[eRow][eCol] = true;
-        		  cameFrom[eRow][eCol] = curr;
+        		  prevRow[eRow][eCol] = curr[0];
+          		  prevCol[eRow][eCol] = curr[1];
         	  }
 
         	  // West
@@ -110,7 +115,8 @@ public class Solver {
         	  if (wCol >= 0 && !map[wRow][wCol].equals("@") && !visited[wRow][wCol]) {
         		  queue.add(new int[]{wRow, wCol});
         		  visited[wRow][wCol] = true;
-        		  cameFrom[wRow][wCol] = curr;
+        		  prevRow[nRow][nCol] = curr[0];
+         		  prevCol[nRow][nCol] = curr[1];
         	  }
           }
 
@@ -123,100 +129,15 @@ public class Solver {
             // Start at the goal and keep jumping to "where did I come from"
             int[] step = goal;
             while (step[0] != start[0] || step[1] != start[1]) {
-                int[] prev = cameFrom[step[0]][step[1]];
-
-                // mark the step BEFORE the goal with +
-                // (we don't overwrite W or $)
-                if (!map[prev[0]][prev[1]].equals("W")) {
-                    map[prev[0]][prev[1]] = "+";
-                }
-
-                step = prev; // walk backwards
+           	 int pr = prevRow[step[0]][step[1]];
+           	    int pc = prevCol[step[0]][step[1]];
+           	    if (!map[pr][pc].equals("W")) {
+           	        map[pr][pc] = "+";
+           	    }
+           	    step = new int[]{pr, pc};
             }
+              
         }
-
-
-
-
-
-		/*Queue<int[]> enQueue = new LinkedList<>();
-		Queue<int[]> deQueue = new LinkedList<>();
-		enQueue.add(start);
-		deQueue.add(start);
-		
-		
-		
-		if(start == null) {
-			System.out.println("Starting position not found");
-			return enQueue;
-		}
-		if(goal == null) {
-			System.out.println("Goal position not found");
-			return enQueue;
-		}
-		
-		//map[start[0]][start[1]] = "+";
-		int[] curr = start;
-		
-		while(curr[0] != goal[0] || curr[1] != goal[1]) {
-			int[] N = {curr[0]-1, curr[1]};
-			int[] S = {curr[0]+1, curr[1]};
-			int[] E =  {curr[0], curr[1]+1};
-			int[] W =  {curr[0], curr[1]-1};
-			
-			if(N[0] == goal[0] && N[1] == goal[1]) {
-				enQueue.add(N);
-				//map[N[0]][N[1]] = "%";
-				return enQueue;
-			}
-			//N[0] != goal[0] && N[1] != goal[1]
-			else if(N[0] >= 0 && N[1] >= 0 && !map[N[0]][N[1]].equals("+") && !map[N[0]][N[1]].equals("@")&& !map[N[0]][N[1]].equals("W") ) {
-				deQueue.add(N);
-				map[N[0]][N[1]] = "+";
-			}
-			
-			if(S[0] == goal[0] && S[1] == goal[1]) {
-				enQueue.add(S);
-				//map[S[0]][S[1]] = "%";
-				return enQueue;
-			}
-			else if(S[0] >= 0 && S[1] >= 0 && !map[S[0]][S[1]].equals("+") && !map[S[0]][S[1]].equals("@") && !map[S[0]][S[1]].equals("W") ) {
-				deQueue.add(S);
-				map[S[0]][S[1]] = "+";
-			}
-			if(E[0] == goal[0] && E[1] == goal[1]) {
-				enQueue.add(E);
-				//map[E[0]][E[1]] = "%";
-				return enQueue;
-			}
-			else if(E[0] >= 0 && E[1] >= 0 && !map[E[0]][E[1]].equals("+") && !map[E[0]][E[1]].equals("@") && !map[E[0]][E[1]].equals("W") ) {
-				deQueue.add(E);
-				map[E[0]][E[1]] = "+";
-			}
-			if(W[0] == goal[0] && W[1] == goal[1]) {
-				enQueue.add(W);
-				//map[W[0]][W[1]] = "%";
-				return enQueue;
-			}
-			else if(W[0] >= 0 && W[1] >= 0 && !map[W[0]][W[1]].equals("+") && !map[W[0]][W[1]].equals("@") && !map[W[0]][W[1]].equals("W") ) {
-				deQueue.add(W);
-				map[W[0]][W[1]] = "+";
-			}
-			
-			
-			
-			curr = deQueue.remove();
-			
-			enQueue.add(curr);
-			
-			if(deQueue.isEmpty()) {
-				System.out.println("no path");
-				return enQueue;
-			}
-			
-		}
-		return enQueue;
-		*/
 		
 	
 	public void printMap() {
@@ -230,7 +151,103 @@ public class Solver {
 	}
 	
 	public void Stack() {
-		
+		//FIFO
+		int rows = map.length;
+		int cols = map[0].length;
+		int[] start = findStart();
+		int[] goal = findGoal();
+				
+				 
+		// safety checks first
+		if (start == null) {
+		    System.out.println("Can't find Start");
+		    return;
+		}
+		if (goal == null) {
+		    System.out.println("Can't find Start");
+		    return;
+		}
+
+		    
+		int[][] prevRow = new int[rows][cols];
+		int[][] prevCol = new int[rows][cols];
+
+		boolean[][] visited = new boolean[rows][cols];
+
+		        
+		Stack<int[]> stack = new Stack<>();
+		stack.push(start);
+		visited[start[0]][start[1]] = true;
+
+		boolean found = false;
+
+		// keep going until the queue is empty or we found the goal
+		while (!stack.isEmpty()) {
+
+		int[] curr = stack.pop();
+
+		if (curr[0] == goal[0] && curr[1] == goal[1]) {
+		     found = true;
+		     break;
+		}
+
+		// North
+		int nRow = curr[0] - 1;
+		int nCol = curr[1];
+		if (nRow >= 0 && !map[nRow][nCol].equals("@") && !visited[nRow][nCol]) {
+		    stack.push(new int[]{nRow, nCol});
+		    visited[nRow][nCol] = true;
+		    prevRow[nRow][nCol] = curr[0];
+		    prevCol[nRow][nCol] = curr[1];
+		}
+
+		// South
+		int sRow = curr[0] + 1;
+		int sCol = curr[1];
+		if (sRow < rows && !map[sRow][sCol].equals("@") && !visited[sRow][sCol]) {
+		     stack.push(new int[]{sRow, sCol});
+		     visited[sRow][sCol] = true;
+		     prevRow[sRow][sCol] = curr[0];
+		     prevCol[sRow][sCol] = curr[1];
+		}
+		 // East
+  	   int eRow = curr[0];
+  	   int eCol = curr[1] + 1;
+  	   if (eCol < cols && !map[eRow][eCol].equals("@") && !visited[eRow][eCol]) {
+  		  stack.push(new int[]{eRow, eCol});
+  		  visited[eRow][eCol] = true;
+  		  prevRow[eRow][eCol] = curr[0];
+  		  prevCol[eRow][eCol] = curr[1];
+  	   }
+
+ 	  // West
+ 	  int wRow = curr[0];
+ 	  int wCol = curr[1] - 1;
+ 	  if (wCol >= 0 && !map[wRow][wCol].equals("@") && !visited[wRow][wCol]) {
+ 		  stack.push(new int[]{wRow, wCol});
+ 		  visited[wRow][wCol] = true;
+ 		  prevRow[nRow][nCol] = curr[0];
+ 		  prevCol[nRow][nCol] = curr[1];
+ 	  }
+		}
+
+     if (!found) {
+         System.out.println("doesnt work");
+         return;
+     }
+
+     // Now trace back the path from goal to start using cameFrom
+     // Start at the goal and keep jumping to "where did I come from"
+     int[] step = goal;
+     while (step[0] != start[0] || step[1] != start[1]) {
+    	 int pr = prevRow[step[0]][step[1]];
+    	    int pc = prevCol[step[0]][step[1]];
+    	    if (!map[pr][pc].equals("W")) {
+    	        map[pr][pc] = "+";
+    	    }
+    	    step = new int[]{pr, pc};
+     }
+       	 
 	}
 	
 	public void Opt() {
