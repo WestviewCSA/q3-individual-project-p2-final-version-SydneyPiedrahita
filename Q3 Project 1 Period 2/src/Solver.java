@@ -7,18 +7,31 @@ public class Solver {
 	private String[][] map;
 	private int row;
 	private int col;
+	private int[] firstRow;
 	
 	
-	public Solver(String[][] map) {
+	public Solver(String[][] map, int[] firstRow) {
 	    this.map = map;
+	    this.firstRow = firstRow;
 	    
 	}
 	
 	public int[] findStart() {
-		for(int row = 0; row < map.length; row++) {
-			for(int col = 0; col < map[0].length; col++) {
-				if(map[row][col].equals("W")) {
-					return new int[] {row, col};
+		if(firstRow[2] >= 1) {
+			for(int row = 0; row < firstRow[0]; row++) {
+				for(int col = 0; col < firstRow[1]; col++) {
+					if(map[row][col].equals("W")) {
+						return new int[] {row, col};
+					}
+				}
+			}
+		}
+		else {
+			for(int row = 0; row < map.length; row++) {
+				for(int col = 0; col < map[0].length; col++) {
+					if(map[row][col].equals("W")) {
+						return new int[] {row, col};
+					}
 				}
 			}
 		}
@@ -45,8 +58,7 @@ public class Solver {
 		int[] start = findStart();
 		int[] goal = findGoal();
 		
-		 
-        // safety checks first
+		
         if (start == null) {
             System.out.println("Can't find Start");
             return;
@@ -58,7 +70,10 @@ public class Solver {
 
     
         int[][] prevRow = new int[rows][cols];
+        //for curr[0]
+        
 		int[][] prevCol = new int[rows][cols];
+		//for curr[1]
 
         boolean[][] visited = new boolean[rows][cols];
 
@@ -69,7 +84,7 @@ public class Solver {
 
             boolean found = false;
 
-            // keep going until the queue is empty or we found the goal
+            
           while (!queue.isEmpty()) {
 
         	  int[] curr = queue.remove();
@@ -125,8 +140,6 @@ public class Solver {
                 return;
             }
 
-            // Now trace back the path from goal to start using cameFrom
-            // Start at the goal and keep jumping to "where did I come from"
             int[] step = goal;
             while (step[0] != start[0] || step[1] != start[1]) {
            	 int pr = prevRow[step[0]][step[1]];
@@ -151,14 +164,14 @@ public class Solver {
 	}
 	
 	public void Stack() {
-		//FIFO
+		//FILO
 		int rows = map.length;
 		int cols = map[0].length;
 		int[] start = findStart();
 		int[] goal = findGoal();
 				
 				 
-		// safety checks first
+		
 		if (start == null) {
 		    System.out.println("Can't find Start");
 		    return;
@@ -181,7 +194,7 @@ public class Solver {
 
 		boolean found = false;
 
-		// keep going until the queue is empty or we found the goal
+		
 		while (!stack.isEmpty()) {
 
 		int[] curr = stack.pop();
@@ -236,8 +249,6 @@ public class Solver {
          return;
      }
 
-     // Now trace back the path from goal to start using cameFrom
-     // Start at the goal and keep jumping to "where did I come from"
      int[] step = goal;
      while (step[0] != start[0] || step[1] != start[1]) {
     	 int pr = prevRow[step[0]][step[1]];
