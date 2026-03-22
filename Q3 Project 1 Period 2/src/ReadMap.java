@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+
 public class ReadMap {
 	private String[][] map;
 	/*public static void main(String[] arg) throws IllegalCharactersFirstLineException {
@@ -144,7 +145,31 @@ public class ReadMap {
 		}
 	}
 	
-
+	public int[] firstLine(String name) {
+		int[] firstLineIndexes = new int[3];
+		try {
+			File file = new File(name);
+			Scanner scanner = new Scanner(file);
+			for(int i = 0; i < 3; i++) {
+				if(i == 0) {
+					 firstLineIndexes[0] = scanner.nextInt();
+					
+				}
+				else if(i == 1) {
+					 firstLineIndexes[1] = scanner.nextInt();
+				}
+				else {
+					 firstLineIndexes[2] = scanner.nextInt();
+				}
+				
+			}
+				
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return firstLineIndexes;
+	}
 
 	//exceptions
 	public class IllegalCharactersFirstLineException extends Exception {

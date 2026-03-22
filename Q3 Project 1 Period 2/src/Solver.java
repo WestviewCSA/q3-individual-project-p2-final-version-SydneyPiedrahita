@@ -7,18 +7,31 @@ public class Solver {
 	private String[][] map;
 	private int row;
 	private int col;
+	private int[] firstRow;
 	
 	
-	public Solver(String[][] map) {
+	public Solver(String[][] map, int[] firstRow) {
 	    this.map = map;
+	    this.firstRow = firstRow;
 	    
 	}
 	
 	public int[] findStart() {
-		for(int row = 0; row < map.length; row++) {
-			for(int col = 0; col < map[0].length; col++) {
-				if(map[row][col].equals("W")) {
-					return new int[] {row, col};
+		if(firstRow[2] >= 1) {
+			for(int row = 0; row < firstRow[0]; row++) {
+				for(int col = 0; col < firstRow[1]; col++) {
+					if(map[row][col].equals("W")) {
+						return new int[] {row, col};
+					}
+				}
+			}
+		}
+		else {
+			for(int row = 0; row < map.length; row++) {
+				for(int col = 0; col < map[0].length; col++) {
+					if(map[row][col].equals("W")) {
+						return new int[] {row, col};
+					}
 				}
 			}
 		}
@@ -45,6 +58,35 @@ public class Solver {
 		    return null;
 	}
 	
+	public int[] findNextW(int[] pipe) {
+	    for (int row = pipe[0]; row < map.length; row++) {
+	        for (int col = 0; col < map[0].length; col++) {
+	            if (map[row][col].equals("W")) {
+	                return new int[]{row, col};
+	            }
+	        }
+	    }
+	    return null;
+	}
+
+	public int[] findGoalFrom(int[] from) {
+	    for (int row = from[0]; row < map.length; row++) {
+	        for (int col = 0; col < map[0].length; col++) {
+	            if (map[row][col].equals("|")) {
+	                return new int[]{row, col};
+	            }
+	        }
+	    }
+	    for (int row = from[0]; row < map.length; row++) {
+	        for (int col = 0; col < map[0].length; col++) {
+	            if (map[row][col].equals("$")) {
+	                return new int[]{row, col};
+	            }
+	        }
+	    }
+	    return null;
+	}
+	
 	public void Queue() {
 		//FIFO
 		int rows = map.length;
@@ -52,8 +94,7 @@ public class Solver {
 		int[] start = findStart();
 		int[] goal = findGoal();
 		
-		 
-        // safety checks first
+		
         if (start == null) {
             System.out.println("Can't find Start");
             return;
@@ -65,7 +106,10 @@ public class Solver {
 
     
         int[][] prevRow = new int[rows][cols];
+        //for curr[0]
+        
 		int[][] prevCol = new int[rows][cols];
+		//for curr[1]
 
         boolean[][] visited = new boolean[rows][cols];
 
@@ -76,7 +120,7 @@ public class Solver {
 
             boolean found = false;
 
-            // keep going until the queue is empty or we found the goal
+            
           while (!queue.isEmpty()) {
 
         	  int[] curr = queue.remove();
@@ -132,16 +176,31 @@ public class Solver {
                 return;
             }
 
-            // Now trace back the path from goal to start using cameFrom
-            // Start at the goal and keep jumping to "where did I come from"
             int[] step = goal;
             while (step[0] != start[0] || step[1] != start[1]) {
-           	 int pr = prevRow[step[0]][step[1]];
-           	    int pc = prevCol[step[0]][step[1]];
-           	    if (!map[pr][pc].equals("W")) {
-           	        map[pr][pc] = "+";
-           	    }
-           	    step = new int[]{pr, pc};
+                int pr = prevRow[step[0]][step[1]];
+                int pc = prevCol[step[0]][step[1]];
+                if (!map[pr][pc].equals("W")) {
+                    map[pr][pc] = "+";
+                }
+                step = new int[]{pr, pc};
+            }
+            // if we hit a | keep going in next room
+            if (map[goal[0]][goal[1]].equals("|")) {
+                start = findNextW(goal);
+                goal = findGoalFrom(start);
+                // clear and restart
+                Queue<int[]> queue2 = new LinkedList<>();
+                boolean[][] visited2 = new boolean[rows][cols];
+                int[][] prevRow2 = new int[rows][cols];
+                int[][] prevCol2 = new int[rows][cols];
+                queue = queue2;
+                visited = visited2;
+                prevRow = prevRow2;
+                prevCol = prevCol2;
+                queue.add(start);
+                visited[start[0]][start[1]] = true;
+                found = false;
             }
               
         }
@@ -158,14 +217,14 @@ public class Solver {
 	}
 	
 	public void Stack() {
-		//FIFO
+		//FILO
 		int rows = map.length;
 		int cols = map[0].length;
 		int[] start = findStart();
 		int[] goal = findGoal();
 				
 				 
-		// safety checks first
+		
 		if (start == null) {
 		    System.out.println("Can't find Start");
 		    return;
@@ -188,7 +247,7 @@ public class Solver {
 
 		boolean found = false;
 
-		// keep going until the queue is empty or we found the goal
+		
 		while (!stack.isEmpty()) {
 
 		int[] curr = stack.pop();
@@ -243,16 +302,30 @@ public class Solver {
          return;
      }
 
-     // Now trace back the path from goal to start using cameFrom
-     // Start at the goal and keep jumping to "where did I come from"
      int[] step = goal;
      while (step[0] != start[0] || step[1] != start[1]) {
-    	 int pr = prevRow[step[0]][step[1]];
-    	    int pc = prevCol[step[0]][step[1]];
-    	    if (!map[pr][pc].equals("W")) {
-    	        map[pr][pc] = "+";
-    	    }
-    	    step = new int[]{pr, pc};
+         int pr = prevRow[step[0]][step[1]];
+         int pc = prevCol[step[0]][step[1]];
+         if (!map[pr][pc].equals("W")) {
+             map[pr][pc] = "+";
+         }
+         step = new int[]{pr, pc};
+     }
+     // if we hit a | keep going in next room
+     if (map[goal[0]][goal[1]].equals("|")) {
+         start = findNextW(goal);
+         goal = findGoalFrom(start);
+         Stack<int[]> stack2 = new Stack<>();
+         boolean[][] visited2 = new boolean[rows][cols];
+         int[][] prevRow2 = new int[rows][cols];
+         int[][] prevCol2 = new int[rows][cols];
+         stack = stack2;
+         visited = visited2;
+         prevRow = prevRow2;
+         prevCol = prevCol2;
+         stack.push(start);
+         visited[start[0]][start[1]] = true;
+         found = false;
      }
        	 
 	}
