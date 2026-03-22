@@ -58,8 +58,19 @@ public class ReadMap {
 			//int cols = scanner.nextInt();
 			//int rooms = scanner.nextInt();
 			
+			Scanner counter = new Scanner(file);
+			counter.nextLine(); // skip the first line with the numbers
+			int actualRows = 0;
+			while (counter.hasNextLine()) {
+			    String line = counter.nextLine();
+			    if (!line.trim().isEmpty()) {  // only count lines that actually have stuff
+			        actualRows++;
+			    }
+			}
+			counter.close();
+			// now make the array with the real size
+			map = new String[actualRows][cols];
 			
-				map = new String[rows*rooms][cols];
 				
 				for(int row = 0; row < map.length; row++) {
 					String str = scanner.next();

@@ -59,7 +59,7 @@ public class Solver {
 	}
 	
 	public int[] findNextW(int[] pipe) {
-	    for (int row = pipe[0]; row < map.length; row++) {
+	    for (int row = pipe[0] + 1; row < map.length; row++) {
 	        for (int col = 0; col < map[0].length; col++) {
 	            if (map[row][col].equals("W")) {
 	                return new int[]{row, col};
@@ -70,14 +70,14 @@ public class Solver {
 	}
 
 	public int[] findGoalFrom(int[] from) {
-	    for (int row = from[0]; row < map.length; row++) {
+	    for (int row = from[0] + 1; row < map.length; row++) {
 	        for (int col = 0; col < map[0].length; col++) {
 	            if (map[row][col].equals("|")) {
 	                return new int[]{row, col};
 	            }
 	        }
 	    }
-	    for (int row = from[0]; row < map.length; row++) {
+	    for (int row = from[0] + 1; row < map.length; row++) {
 	        for (int col = 0; col < map[0].length; col++) {
 	            if (map[row][col].equals("$")) {
 	                return new int[]{row, col};
@@ -120,7 +120,7 @@ public class Solver {
 
             boolean found = false;
 
-            
+          while(true) { 
           while (!queue.isEmpty()) {
 
         	  int[] curr = queue.remove();
@@ -170,6 +170,7 @@ public class Solver {
          		  prevCol[wRow][wCol] = curr[1];
         	  }
           }
+          
 
             if (!found) {
                 System.out.println("doesnt work");
@@ -185,23 +186,24 @@ public class Solver {
                 }
                 step = new int[]{pr, pc};
             }
-            // if we hit a | keep going in next room
-            if (map[goal[0]][goal[1]].equals("|")) {
-                start = findNextW(goal);
-                goal = findGoalFrom(start);
-                // clear and restart
-                Queue<int[]> queue2 = new LinkedList<>();
-                boolean[][] visited2 = new boolean[rows][cols];
-                int[][] prevRow2 = new int[rows][cols];
-                int[][] prevCol2 = new int[rows][cols];
-                queue = queue2;
-                visited = visited2;
-                prevRow = prevRow2;
-                prevCol = prevCol2;
-                queue.add(start);
-                visited[start[0]][start[1]] = true;
-                found = false;
+            
+            if (map[goal[0]][goal[1]].equals("$")) {
+                break;
             }
+            
+           
+
+            start = findNextW(goal);
+            goal = findGoalFrom(start);
+            queue = new LinkedList<>();
+            visited = new boolean[rows][cols];
+            prevRow = new int[rows][cols];
+            prevCol = new int[rows][cols];
+            queue.add(start);
+            visited[start[0]][start[1]] = true;
+            found = false;
+          }
+        
               
         }
 		
