@@ -27,15 +27,22 @@ public class Solver {
 	}
 	
 	public int[] findGoal() {
-		for(int row = 0; row < map.length; row++) {
-			for(int col = 0; col < map[0].length; col++) {
-				if(map[row][col].equals("$")) {
-					return new int[] {row, col};
-				}
-			}
-		}
-		//if not found:
-		return null;
+		   for(int row = 0; row < map.length; row++) {
+		        for(int col = 0; col < map[0].length; col++) {
+		            if(map[row][col].equals("|")) {
+		                return new int[] {row, col};
+		            }
+		        }
+		    }
+		    // if no walkway
+		    for(int row = 0; row < map.length; row++) {
+		        for(int col = 0; col < map[0].length; col++) {
+		            if(map[row][col].equals("$")) {
+		                return new int[] {row, col};
+		            }
+		        }
+		    }
+		    return null;
 	}
 	
 	public void Queue() {
@@ -115,8 +122,8 @@ public class Solver {
         	  if (wCol >= 0 && !map[wRow][wCol].equals("@") && !visited[wRow][wCol]) {
         		  queue.add(new int[]{wRow, wCol});
         		  visited[wRow][wCol] = true;
-        		  prevRow[nRow][nCol] = curr[0];
-         		  prevCol[nRow][nCol] = curr[1];
+        		  prevRow[wRow][wCol] = curr[0];
+         		  prevCol[wRow][wCol] = curr[1];
         	  }
           }
 
@@ -226,8 +233,8 @@ public class Solver {
  	  if (wCol >= 0 && !map[wRow][wCol].equals("@") && !visited[wRow][wCol]) {
  		  stack.push(new int[]{wRow, wCol});
  		  visited[wRow][wCol] = true;
- 		  prevRow[nRow][nCol] = curr[0];
- 		  prevCol[nRow][nCol] = curr[1];
+ 		  prevRow[wRow][wCol] = curr[0];
+ 		  prevCol[wRow][wCol] = curr[1];
  	  }
 		}
 
