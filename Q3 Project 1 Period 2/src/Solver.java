@@ -338,7 +338,7 @@ public class Solver {
 	}
 	
 	public void Opt() {
-		
+		Queue();
 	}
 	
 	

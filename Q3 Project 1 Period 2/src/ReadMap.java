@@ -3,8 +3,11 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 
+
 public class ReadMap {
 	private String[][] map;
+	private static final String LEGAL_CHARS = "W$.|@";
+
 	/*public static void main(String[] arg) throws IllegalCharactersFirstLineException {
 		
 		if(arg.length > 0) {
@@ -17,7 +20,9 @@ public class ReadMap {
 		ReadMap m = new ReadMap();
 	}
 	*/
-	public ReadMap() throws IllegalCharactersFirstLineException {
+	public ReadMap(String name, boolean coord) /*throws IllegalFirstLineException,
+    IllegalCommandLineInputsException,
+    IncompleteMapException */{
 		
 		/*if(filename.endsWith("c")) {
 			readCoordinateFile(filename);
@@ -27,24 +32,35 @@ public class ReadMap {
 		}
 		*/
 		this.map = map;
+		if(coord == true) {
+			readCoordinateFile(name);
+		}else {
+			readFile(name);
+		}
+			
+		
 	}
 	
-	public String[][] readFile(String name) throws ReadMap.IllegalCharactersFirstLineException {
+	public void readFile(String name) /*throws IllegalFirstLineException,
+    IllegalMapCharacterException,
+    IncompleteMapException */ {
 		try {
 			File file = new File(name);
 			Scanner scanner = new Scanner(file);
+
 			int rows = 0;
 			int cols = 0;
 			int rooms = 0;
-			for(int i = 0; i < 3; i++) {
-				if(!scanner.hasNextInt()) {
-					throw new IllegalCharactersFirstLineException("invalid map");
+			for(int j = 0; j < 3; j++) {
+				/*if(!scanner.hasNextInt()) {
+					throw new IllegalFirstLineException("invalid map");
 				}
-				if(i == 0) {
+			*/
+				if(j == 0) {
 					 rows = scanner.nextInt();
 					
 				}
-				else if(i == 1) {
+				else if(j == 1) {
 					 cols = scanner.nextInt();
 				}
 				else {
@@ -70,32 +86,39 @@ public class ReadMap {
 			counter.close();
 			// now make the array with the real size
 			map = new String[actualRows][cols];
-			
+			for(int r = 0; r<map.length; r++) {
+               /* if (!scanner.hasNext()) {
+                    throw new IncompleteMapException(
+                        "Map is incomplete");
+                }
+                
+                
+ 
+                if (line.length() < cols) {
+                    throw new IncompleteMapException(
+                        "Row is too short");
+                }
+                */
+				String line = scanner.next();
+                for (int c = 0; c < cols; c++) {
+                    String ch = String.valueOf(line.charAt(c));
+                   /* if (LEGAL_CHARS.indexOf(ch) == -1) {
+                        throw new IllegalMapCharacterException(
+                            "Illegal character");
+                    }
+                    */
+                    map[r][c] = ch;
+                }
+			}
 				
-				for(int row = 0; row < map.length; row++) {
-					String str = scanner.next();
-					for(int col = 0; col < map[0].length; col++) {
-						map[row][col] = String.valueOf(str.charAt(col));
-					}
-				}
-				for(int row = 0; row < map.length; row++) {
-					
-					for(int col = 0; col < map[0].length; col++) {
-						System.out.print(map[row][col]);
-					}
-					System.out.println();
-				}
-				
-				
-			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return map;
+		
 	}
 	
-	public void readCoordinateFile(String name) throws IllegalCharactersFirstLineException {
+	public void readCoordinateFile(String name) /*throws IllegalFirstLineException */ {
 		try {
 			File file = new File(name);
 			Scanner scanner = new Scanner(file);
@@ -103,9 +126,9 @@ public class ReadMap {
 			int cols = 0;
 			int rooms = 0;
 			for(int i = 0; i < 3; i++) {
-				if(!scanner.hasNextInt()) {
-					throw new IllegalCharactersFirstLineException("invalid map");
-				}
+				/*if(!scanner.hasNextInt()) {
+					throw new IllegalFirstLineException("invalid map");
+				}\*/
 				if(i == 0) {
 					 rows = scanner.nextInt();
 					
@@ -154,6 +177,7 @@ public class ReadMap {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	
 	}
 	
 	public int[] firstLine(String name) {
@@ -181,37 +205,40 @@ public class ReadMap {
 		}
 		return firstLineIndexes;
 	}
+	
+	public String[][] getMap(){
+		return map;
+	}
 
-	//exceptions
-	public class IllegalCharactersFirstLineException extends Exception {
-			public IllegalCharactersFirstLineException(String message) {
-				super(message);
-			}
-	}
-	
-	public class IllegalCommandLineInputsException extends Exception {
-		public IllegalCommandLineInputsException (String message) {
+	public class IllegalFirstLineException extends Exception {
+		public IllegalFirstLineException(String message) {
 			super(message);
 		}
+}
+
+public class IllegalCommandLineInputsException extends Exception {
+	public IllegalCommandLineInputsException (String message) {
+		super(message);
 	}
-	
-	public class IllegalMapCharacterExcption extends Exception {
-		public IllegalMapCharacterExcption(String message) {
-			super(message);
-		}
+}
+
+public class IllegalMapCharacterException extends Exception {
+	public IllegalMapCharacterException(String message) {
+		super(message);
 	}
-	
-	public class IncompleteMapException extends Exception {
-		public IncompleteMapException(String message) {
-			super(message);
-		}
+}
+
+public class IncompleteMapException extends Exception {
+	public IncompleteMapException(String message) {
+		super(message);
 	}
-	
-	public class IncorrectMapFormatException extends Exception {
-		public IncorrectMapFormatException(String message) {
-			super(message);
-		}
+}
+
+public class IncorrectMapFormatException extends Exception {
+	public IncorrectMapFormatException(String message) {
+		super(message);
 	}
+}
 }
 
 
