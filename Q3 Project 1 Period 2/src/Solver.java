@@ -249,7 +249,8 @@ public class Solver {
 
 		boolean found = false;
 
-		
+
+        while(true) { 
 		while (!stack.isEmpty()) {
 
 		int[] curr = stack.pop();
@@ -299,36 +300,40 @@ public class Solver {
  	  }
 		}
 
-     if (!found) {
-         System.out.println("doesnt work");
-         return;
-     }
 
-     int[] step = goal;
-     while (step[0] != start[0] || step[1] != start[1]) {
-         int pr = prevRow[step[0]][step[1]];
-         int pc = prevCol[step[0]][step[1]];
-         if (!map[pr][pc].equals("W")) {
-             map[pr][pc] = "+";
-         }
-         step = new int[]{pr, pc};
-     }
-     // if we hit a | keep going in next room
-     if (map[goal[0]][goal[1]].equals("|")) {
-         start = findNextW(goal);
-         goal = findGoalFrom(start);
-         Stack<int[]> stack2 = new Stack<>();
-         boolean[][] visited2 = new boolean[rows][cols];
-         int[][] prevRow2 = new int[rows][cols];
-         int[][] prevCol2 = new int[rows][cols];
-         stack = stack2;
-         visited = visited2;
-         prevRow = prevRow2;
-         prevCol = prevCol2;
-         stack.push(start);
-         visited[start[0]][start[1]] = true;
-         found = false;
-     }
+
+        if (!found) {
+            System.out.println("doesnt work");
+            return;
+        }
+
+        int[] step = goal;
+        while (step[0] != start[0] || step[1] != start[1]) {
+            int pr = prevRow[step[0]][step[1]];
+            int pc = prevCol[step[0]][step[1]];
+            if (!map[pr][pc].equals("W")) {
+                map[pr][pc] = "+";
+            }
+            step = new int[]{pr, pc};
+        }
+        
+        if (map[goal[0]][goal[1]].equals("$")) {
+            break;
+        }
+        
+       
+
+        start = findNextW(goal);
+        goal = findGoalFrom(start);
+        stack = new Stack<>();
+        visited = new boolean[rows][cols];
+        prevRow = new int[rows][cols];
+        prevCol = new int[rows][cols];
+        stack.add(start);
+        visited[start[0]][start[1]] = true;
+        found = false;
+      }
+    
        	 
 	}
 	

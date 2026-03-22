@@ -25,7 +25,7 @@ public class Runner {
 		}
 		System.out.println();
 		Solver s2 = new Solver(map2, firstLine2);
-		s2.Queue();
+		s2.Stack();
 		System.out.println();
 		s2.printMap();
 		
@@ -39,10 +39,9 @@ public class Runner {
 		}
 		
 		Solver s3 = new Solver(map3, firstLine3);
+		
 		System.out.println();
-		s3.printMap();
-		System.out.println();
-		s3.Queue();
+		s3.Stack();
 		System.out.println();
 		s3.printMap();
 	}
