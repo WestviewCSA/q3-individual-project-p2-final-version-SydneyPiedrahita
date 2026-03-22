@@ -8,18 +8,6 @@ public class ReadMap {
 	private String[][] map;
 	private static final String LEGAL_CHARS = "W$.|@";
 
-	/*public static void main(String[] arg) throws IllegalCharactersFirstLineException {
-		
-		if(arg.length > 0) {
-			System.out.println("yay");
-		}
-		if(arg[0].equals("--Stack")) {
-			
-		}
-		
-		ReadMap m = new ReadMap();
-	}
-	*/
 	public ReadMap(String name, boolean coord) /*throws IllegalFirstLineException,
     IllegalCommandLineInputsException,
     IncompleteMapException */{
